@@ -7,8 +7,9 @@
    [departmentToEdit]="selectedDepartment"
    (finished)="selectedDepartment = null"
    >
-
   </add-department>
+
+  <preview-department #previewModal [department]="previewDepartment"></preview-department>
 
   <department-list
     [departments]="departmentResource.value() ?? []"

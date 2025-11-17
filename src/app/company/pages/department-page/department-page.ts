@@ -7,10 +7,11 @@ import { tap } from 'rxjs';
 import { AddDepartment } from "./components/add-department/add-department";
 import { SwalComponent, SwalDirective } from '@sweetalert2/ngx-sweetalert2';
 import Swal from 'sweetalert2';
+import { PreviewDepartment } from "./components/preview-department/preview-department";
 
 @Component({
   selector: 'app-department-page',
-  imports: [DepartmentList, AddDepartment],
+  imports: [DepartmentList, AddDepartment, PreviewDepartment],
   templateUrl: './department-page.html',
   styleUrl: './department-page.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -18,13 +19,17 @@ import Swal from 'sweetalert2';
 export class DepartmentPage {
 
   @ViewChild('modalComp') modalComp!: AddDepartment;
+  @ViewChild('previewModal') previewModal!: PreviewDepartment;
+
 
   departmentService = inject(DepartmentService);
 
   selectedDepartment: Department | null= null;
+  previewDepartment: Department | null = null;
 
   doAction(value:{action:string, department:Department}){
 
+    console.log(value);
       if(value.action === 'delete'){
         this.onDelete(value.department.id)
         return;
@@ -35,7 +40,9 @@ export class DepartmentPage {
         return
       }
 
-      this.onPreview(value.department.id)
+
+
+      this.onPreview(value.department)
   }
 
   departmentResource = rxResource<Department[],undefined|null>({
@@ -149,8 +156,9 @@ export class DepartmentPage {
   }
 
 
-  onPreview (id:number){
-
+  onPreview (department:Department){
+    this.previewDepartment = department;
+    this.previewModal.openModal();
   }
 
 }
