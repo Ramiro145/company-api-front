@@ -8,6 +8,8 @@
     [errorMessage]="departmentResource.error()"
     [isEmpty]="departmentResource.value()?.length === 0"
     [isLoading]="departmentResource.isLoading()"
+
+    (action)="doAction($event)"
   ></department-list>
 
 </section>

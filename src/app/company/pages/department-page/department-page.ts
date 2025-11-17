@@ -19,6 +19,21 @@ export class DepartmentPage {
 
   departmentService = inject(DepartmentService);
 
+  doAction(value:{action:string, department:Department}){
+
+      if(value.action === 'delete'){
+        this.onDelete(value.department.id)
+        return;
+      }
+
+      if(value.action === 'edit'){
+        this.onEdit(value.department);
+        return
+      }
+
+      this.onPreview(value.department.id)
+  }
+
   departmentResource = rxResource<Department[],undefined|null>({
     stream: () => {
       return this.departmentService.getAllDepartments()
@@ -26,8 +41,6 @@ export class DepartmentPage {
   })
 
   departmentPost(department:DepartmentPost){
-
-
 
     this.departmentService.addDepartment(department).subscribe({
       next: (resp) => {
@@ -54,5 +67,50 @@ export class DepartmentPage {
 
   }
 
+
+  onDelete (id:number) {
+
+    Swal.fire({
+      title:"Are you sure?",
+      text:'You wont be able to revert this!',
+      icon:'warning',
+      showCancelButton:true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if(result.isConfirmed){
+
+        this.departmentService.deleteDepartment(id).subscribe(resp => {
+          if(resp === false){
+              Swal.fire({
+              title:'Error!',
+              text:'Something went wrong',
+              icon:'error'
+            })
+          }
+
+          Swal.fire({
+          title:'Deleted!',
+          text:'department has been deleted',
+          icon:'success'
+          })
+
+          this.departmentResource.reload();
+
+        })
+      }
+    })
+
+
+  }
+
+  onEdit(department:Department){
+
+  }
+
+  onPreview (id:number){
+
+  }
 
 }

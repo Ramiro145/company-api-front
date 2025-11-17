@@ -18,6 +18,10 @@ export class DepartmentService {
 
   }
 
+  getDepartmentById (id:number) {
+
+  }
+
 
   addDepartment (department:DepartmentPost):Observable<boolean> {
 
@@ -25,6 +29,15 @@ export class DepartmentService {
 
   }
 
+
+  deleteDepartment (id:number):Observable<boolean>{
+    return this.http.delete<boolean>(`${this.baseUrl}/api/Departments/${id}`);
+  }
+
+
+  editDepartment (department:Department){
+
+  }
 
 
 
