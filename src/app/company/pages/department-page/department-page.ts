@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, ViewChild, viewChild } from '@angular/core';
 import { DepartmentList } from "./components/department-list/department-list";
 import { DepartmentService } from '../../services/department.service';
 import { rxResource } from '@angular/core/rxjs-interop';
-import { Department, DepartmentPost } from '../../interfaces/departments.interface';
+import { Department, DepartmentDTO } from '../../interfaces/departments.interface';
 import { tap } from 'rxjs';
 import { AddDepartment } from "./components/add-department/add-department";
 import { SwalComponent, SwalDirective } from '@sweetalert2/ngx-sweetalert2';
@@ -17,7 +17,11 @@ import Swal from 'sweetalert2';
 })
 export class DepartmentPage {
 
+  @ViewChild('modalComp') modalComp!: AddDepartment;
+
   departmentService = inject(DepartmentService);
+
+  selectedDepartment: Department | null= null;
 
   doAction(value:{action:string, department:Department}){
 
@@ -27,7 +31,7 @@ export class DepartmentPage {
       }
 
       if(value.action === 'edit'){
-        this.onEdit(value.department);
+        this.onModalEdit(value.department);
         return
       }
 
@@ -40,7 +44,16 @@ export class DepartmentPage {
     }
   })
 
-  departmentPost(department:DepartmentPost){
+  addEditDepartment (actions:{action:string, department:DepartmentDTO}) {
+    if(actions.action == 'add'){
+      this.departmentPost(actions.department)
+      return;
+    }else{
+      this.departmentEdit(actions.department);
+    }
+  }
+
+  departmentPost(department:DepartmentDTO){
 
     this.departmentService.addDepartment(department).subscribe({
       next: (resp) => {
@@ -65,6 +78,31 @@ export class DepartmentPage {
       },
     })
 
+  }
+
+  departmentEdit(department:DepartmentDTO){
+
+    this.departmentService.editDepartment(department).subscribe({
+      next: (resp) => {
+        Swal.fire({
+        title:'Great',
+        text:'Department Updated!',
+        icon:'success'
+      })
+
+      this.departmentResource.reload();
+
+      },
+      error(err) {
+          Swal.fire({
+          title:'Failed!',
+          text:'something went wrong',
+          icon:'success'
+        })
+
+        console.log(err);
+      },
+    })
   }
 
 
@@ -105,9 +143,11 @@ export class DepartmentPage {
 
   }
 
-  onEdit(department:Department){
-
+  onModalEdit(department:Department){
+    this.selectedDepartment = department;
+    this.modalComp.openModal();
   }
+
 
   onPreview (id:number){
 

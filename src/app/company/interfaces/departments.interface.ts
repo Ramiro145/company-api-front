@@ -7,8 +7,8 @@ export interface Department {
 
 
 
-export interface DepartmentPost {
-
+export interface DepartmentDTO {
+  id?: number;
   name: string;
   location:string;
 

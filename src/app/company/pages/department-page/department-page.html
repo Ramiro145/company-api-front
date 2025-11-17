@@ -1,7 +1,14 @@
 
 <section class="py-5">
 
-  <add-department (department)="departmentPost($event)" ></add-department>
+  <add-department
+   #modalComp
+   (department)="addEditDepartment($event)"
+   [departmentToEdit]="selectedDepartment"
+   (finished)="selectedDepartment = null"
+   >
+
+  </add-department>
 
   <department-list
     [departments]="departmentResource.value() ?? []"

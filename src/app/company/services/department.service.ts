@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Department, DepartmentPost } from '../interfaces/departments.interface';
+import { Department, DepartmentDTO } from '../interfaces/departments.interface';
 import { environment } from '../../../environments/environment.development';
 
 @Injectable({providedIn: 'root'})
@@ -23,7 +23,7 @@ export class DepartmentService {
   }
 
 
-  addDepartment (department:DepartmentPost):Observable<boolean> {
+  addDepartment (department:DepartmentDTO):Observable<boolean> {
 
     return this.http.post<boolean>(`${this.baseUrl}/api/Departments`,department);
 
@@ -35,8 +35,8 @@ export class DepartmentService {
   }
 
 
-  editDepartment (department:Department){
-
+  editDepartment (department:DepartmentDTO):Observable<boolean>{
+    return this.http.patch<boolean>(`${this.baseUrl}/api/Departments/${department.id}`,{name:department.name, location:department.location});
   }
 
 
