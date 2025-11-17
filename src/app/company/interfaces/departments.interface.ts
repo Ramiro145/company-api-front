@@ -4,3 +4,12 @@ export interface Department {
   location:    string;
   lastUpdated: Date | null;
 }
+
+
+
+export interface DepartmentPost {
+
+  name: string;
+  location:string;
+
+}

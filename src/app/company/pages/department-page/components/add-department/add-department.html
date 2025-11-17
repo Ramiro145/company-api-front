@@ -1,0 +1,44 @@
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary mb-5" data-bs-toggle="modal" (click)="openModal()">
+  Add Department
+</button>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Add Department</h1>
+        <button type="button" class="btn-close" (click)="closeModal()" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="departmentForm">
+          <div class="mb-3">
+            <label for="namefb" class="form-label">Department Name</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="name"
+              aria-describedby="emailHelp"
+              id="namefb"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="locationfb" class="form-label">Location</label>
+            <input type="text" class="form-control" id="locationfb" formControlName="location"/>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button  (click)="closeModal()" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button (click)="onSubmit()" type="submit" class="btn btn-primary">Add</button>
+      </div>
+    </div>
+  </div>
+</div>

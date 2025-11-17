@@ -1,9 +1,13 @@
 
 <section class="py-5">
+
+  <add-department (department)="departmentPost($event)" ></add-department>
+
   <department-list
     [departments]="departmentResource.value() ?? []"
     [errorMessage]="departmentResource.error()"
     [isEmpty]="departmentResource.value()?.length === 0"
     [isLoading]="departmentResource.isLoading()"
-  ></department-list>>
+  ></department-list>
+
 </section>
