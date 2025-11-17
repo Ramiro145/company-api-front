@@ -1,0 +1,37 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Location</th>
+      <th scope="col">Last updated</th>
+      <th scope="col">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (department of departments(); track department.id; let index = $index) {
+    <tr>
+      <td>{{ index + 1 }}</td>
+      <td>{{ department.name }}</td>
+      <td>{{ department.location }}</td>
+      <td>{{ department.lastUpdated }}</td>
+      <td>up-del-ver</td>
+    </tr>
+    } @if (errorMessage()) {
+    <tr>
+      <td colspan="8" class="text-center">
+        {{ errorMessage() }}
+      </td>
+    </tr>
+    } @if(departments().length === 0 && isLoading() === false){
+    <tr>
+      <td colspan="8" class="text-center">No results</td>
+    </tr>
+    }
+    @if (isLoading()) {
+    <tr>
+      <td colspan="8" class="text-center">Searching departments...</td>
+    </tr>
+    }
+  </tbody>
+</table>
